@@ -1,0 +1,122 @@
+:root {
+  --color-bg-start: #F7C1FF;
+  --color-bg-end: #CBA1FF;
+  --color-button: #D36AD6;
+  --color-button-hover: #ba5cc2;
+  --color-title: #5B2B70;
+  --color-text: #333;
+  --color-input-border: #ccc;
+  --color-white: #fff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* ===== Login Page ===== */
+
+.login-wrapper {
+  height: 100vh;
+  background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form-box {
+  background-color: var(--color-white);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title {
+  margin-bottom: 24px;
+  text-align: center;
+  color: var(--color-title);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-label {
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.login-input {
+  padding: 10px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-input-border);
+  outline: none;
+}
+
+.login-button {
+  margin-top: 16px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: var(--color-button);
+  color: var(--color-white);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: var(--color-button-hover);
+}
+
+/* ===== 404 Страница ===== */
+
+.notfound-wrapper {
+  height: 100vh;
+  background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notfound-box {
+  background-color: var(--color-white);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.notfound-title {
+  font-size: 64px;
+  color: var(--color-title);
+  margin-bottom: 16px;
+}
+
+.notfound-text {
+  font-size: 18px;
+  color: var(--color-text);
+  margin-bottom: 24px;
+}
+
+.notfound-button {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: var(--color-button);
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.notfound-button:hover {
+  background-color: var(--color-button-hover);
+}
