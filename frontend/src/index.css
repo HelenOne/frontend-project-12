@@ -7,11 +7,13 @@
   --color-text: #333;
   --color-input-border: #ccc;
   --color-white: #fff;
+
+  --font-main: 'Comfortaa', sans-serif;
 }
 
 body {
   margin: 0;
-  font-family: 'Quicksand', sans-serif;
+  font-family: var(--font-main);
 }
 
 /* ===== Login Page ===== */
