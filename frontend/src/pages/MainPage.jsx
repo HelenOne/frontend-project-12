@@ -10,13 +10,23 @@ const MainPage = () => {
     const fetchChatData = async () => {
       const token = localStorage.getItem('token');
 
-      const response = await axios.get('/api/v1/data', {
+      const channelsResponse = await axios.get('/api/v1/channels', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      dispatch(setChatData(response.data));
+      
+      const messagesResponse = await axios.get('/api/v1/messages', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      dispatch(setChatData({
+        channels: channelsResponse.data,
+        messages: messagesResponse.data,
+        currentChannelId: channelsResponse.data[0]?.id || null,
+      }));      
     };
 
     fetchChatData();
