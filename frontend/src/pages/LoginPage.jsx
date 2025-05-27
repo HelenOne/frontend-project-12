@@ -1,27 +1,39 @@
 import { Formik, Form, Field } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const LoginPage = () => (
-  <div className="login-wrapper">
-    <div className="login-form-box">
-      <h2 className="login-title">✨ Вход в чат ✨</h2>
-      <Formik
-        initialValues={{ username: '', password: '' }}
-        onSubmit={(values) => {
-          console.log('Попытка входа:', values);
-        }}
-      >
-        <Form className="login-form">
-          <label className="login-label" htmlFor="username">Имя пользователя</label>
-          <Field className="login-input" id="username" name="username" placeholder="Ваше имя" />
 
-          <label className="login-label" htmlFor="password">Пароль</label>
-          <Field className="login-input" id="password" name="password" type="password" placeholder="Пароль" />
+const LoginPage = () => {
+  const navigate = useNavigate();
 
-          <button type="submit" className="login-button">Войти</button>
-        </Form>
-      </Formik>
+  return (
+    <div className="login-wrapper">
+      <div className="login-form-box">
+        <h2 className="login-title">✨ Вход в чат ✨</h2>
+        <Formik
+          initialValues={{ username: '', password: '' }}
+          onSubmit={async (values) => {
+            console.log('Попытка входа:', values);
+            const response = await axios.post('/api/v1/login', values);            ;
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+            navigate('/');
+  
+          }}
+        >
+          <Form className="login-form">
+            <label className="login-label" htmlFor="username">Имя пользователя</label>
+            <Field className="login-input" id="username" name="username" placeholder="Ваше имя" />
+  
+            <label className="login-label" htmlFor="password">Пароль</label>
+            <Field className="login-input" id="password" name="password" type="password" placeholder="Пароль" />
+  
+            <button type="submit" className="login-button">Войти</button>
+          </Form>
+        </Formik>
+      </div>
     </div>
-  </div>
-);
+  );  
+}
 
 export default LoginPage;
