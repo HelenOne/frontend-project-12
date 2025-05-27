@@ -31,14 +31,6 @@ const Chat = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      dispatch(addMessage({
-        id: Date.now(),
-        body: messageText,
-        channelId: currentChannelId,
-        username,
-      }));
-
       setMessageText('');
     } catch (err) {
       console.error('Ошибка отправки сообщения', err);
