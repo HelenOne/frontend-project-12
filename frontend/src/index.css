@@ -131,3 +131,80 @@ body {
 .notfound-button:hover {
   background-color: var(--color-button-hover);
 }
+
+/* ===== Chat ===== */
+
+.chat-container {
+  display: flex;
+  height: 100vh;
+  font-family: var(--font-main);
+}
+
+.channels-panel {
+  width: 25%;
+  padding: 16px;
+  background: linear-gradient(to bottom, var(--color-bg-start), var(--color-bg-end));
+  color: var(--color-title);
+  border-right: 2px solid var(--color-title);
+}
+
+.panel-title {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--color-title);
+}
+
+.channel-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.channel {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.channel:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.active-channel {
+  background-color: var(--color-white);
+  font-weight: bold;
+}
+
+.chat-panel {
+  flex: 1;
+  padding: 24px;
+  background: var(--color-white);
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-title {
+  font-size: 20px;
+  color: var(--color-title);
+  margin-bottom: 16px;
+}
+
+.message-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.message {
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.message-user {
+  font-weight: 600;
+  color: var(--color-button);
+  margin-right: 4px;
+}

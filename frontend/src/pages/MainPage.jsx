@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setChatData } from '../store/slices/chatSlice.js';
+import ChannelList from '../components/ChannelList.jsx';
+import Chat from '../components/Chat.jsx';
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -33,9 +35,9 @@ const MainPage = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <h1>Чат и каналы</h1>
-      {/* пока просто заглушка */}
+    <div className="chat-container">
+      <ChannelList />
+      <Chat />
     </div>
   );
 };
