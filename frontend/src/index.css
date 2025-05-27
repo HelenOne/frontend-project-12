@@ -208,3 +208,32 @@ body {
   color: var(--color-button);
   margin-right: 4px;
 }
+
+.message-form {
+  display: flex;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+.message-input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--color-input-border);
+  font-family: var(--font-main);
+}
+
+.message-button {
+  background-color: var(--color-button);
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.message-button:hover {
+  background-color: var(--color-button-hover);
+}
