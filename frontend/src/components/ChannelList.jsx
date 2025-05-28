@@ -1,8 +1,14 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentChannelId } from '../store/slices/chatSlice.js';
 
 const ChannelList = () => {
+  const dispatch = useDispatch();
   const channels = useSelector((state) => state.chat.channels);
   const currentChannelId = useSelector((state) => state.chat.currentChannelId);
+
+  const handleClick = (id) => {
+    dispatch(setCurrentChannelId(id));
+  };
 
   return (
     <aside className="channels-panel">
@@ -16,6 +22,7 @@ const ChannelList = () => {
                 ? 'channel active-channel'
                 : 'channel'
             }
+            onClick={() => handleClick(channel.id)}
           >
             # {channel.name}
           </li>

@@ -22,7 +22,6 @@ const MainPage = () => {
     });
 
     return () => {
-      socket.off('newMessage');
       socket.disconnect();
     };
   }, [dispatch]);
