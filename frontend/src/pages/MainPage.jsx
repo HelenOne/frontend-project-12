@@ -17,7 +17,6 @@ const MainPage = () => {
       .catch((err) => console.error('Ошибка загрузки чата', err));
 
     socket.on('newMessage', (message) => {
-      console.log('ddd')
       dispatch(addMessage(message));
     });
 
