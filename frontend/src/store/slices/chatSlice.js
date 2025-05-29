@@ -22,6 +22,10 @@ const chatSlice = createSlice({
     setCurrentChannelId: (state, action) => {
       state.currentChannelId = action.payload;
     },
+    addChannel: (state, action) => {
+      state.channels.push(action.payload);
+      state.currentChannelId = action.payload.id;
+    },    
   },
 });
 
