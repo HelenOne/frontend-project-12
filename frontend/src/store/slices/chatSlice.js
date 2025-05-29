@@ -29,5 +29,5 @@ const chatSlice = createSlice({
   },
 });
 
-export const { setChatData, addMessage, setCurrentChannelId } = chatSlice.actions;
+export const { setChatData, addMessage, setCurrentChannelId, addChannel } = chatSlice.actions;
 export default chatSlice.reducer;
