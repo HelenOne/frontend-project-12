@@ -1,17 +1,26 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import AddChannelModal from '../modals/AddChannelModal.jsx';
+import RenameChannelModal from '../modals/RenameChannelModal.jsx';
 import ChannelItem from './ChannelItem.jsx';
 
 const ChannelList = () => {
   const channels = useSelector((state) => state.chat.channels);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [isRenameModalOpen, setRenameModalOpen] = useState(false);
+  const [channelToRename, setChannelToRename] = useState(null);
+
+  const handleAdd = () => {
+    setAddModalOpen(true);
+  };
 
   const handleRename = (channel) => {
-    console.log('Rename modal for', channel);
+    setChannelToRename(channel);
+    setRenameModalOpen(true);
   };
 
   const handleRemove = (channel) => {
+    // здесь можно будет открыть RemoveChannelModal
     console.log('Remove modal for', channel);
   };
 
@@ -21,7 +30,7 @@ const ChannelList = () => {
         <h3 className="panel-title">Каналы ✨</h3>
         <button
           className="add-channel-button"
-          onClick={() => setModalOpen(true)}
+          onClick={handleAdd}
           aria-label="Добавить канал"
           type="button"
         >
@@ -40,8 +49,18 @@ const ChannelList = () => {
         ))}
       </ul>
 
-      {isModalOpen && (
-        <AddChannelModal onClose={() => setModalOpen(false)} />
+      {isAddModalOpen && (
+        <AddChannelModal onClose={() => setAddModalOpen(false)} />
+      )}
+
+      {isRenameModalOpen && channelToRename && (
+        <RenameChannelModal
+          channel={channelToRename}
+          onClose={() => {
+            setRenameModalOpen(false);
+            setChannelToRename(null);
+          }}
+        />
       )}
     </aside>
   );

@@ -25,9 +25,16 @@ const chatSlice = createSlice({
     addChannel: (state, action) => {
       state.channels.push(action.payload);
       state.currentChannelId = action.payload.id;
+    },
+    renameChannel: (state, action) => {
+      const { id, name } = action.payload;
+      const channel = state.channels.find((c) => c.id === id);
+      if (channel) {
+        channel.name = name;
+      }
     },    
   },
 });
 
-export const { setChatData, addMessage, setCurrentChannelId, addChannel } = chatSlice.actions;
+export const { setChatData, addMessage, setCurrentChannelId, addChannel, renameChannel } = chatSlice.actions;
 export default chatSlice.reducer;
