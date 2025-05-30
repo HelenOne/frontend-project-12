@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { removeChannel } from '../store/slices/chatSlice.js';
 import Modal from './Modal.jsx';
 
 const RemoveChannelModal = ({ channel, onClose }) => {
