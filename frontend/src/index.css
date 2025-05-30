@@ -10,6 +10,8 @@
   --color-error: #C35291;
 
   --font-main: 'Comfortaa', sans-serif;
+
+  --header-height: 56px;
 }
 
 body {
@@ -136,7 +138,7 @@ body {
 
 .chat-container {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - var(--header-height));
   font-family: var(--font-main);
 }
 
@@ -421,4 +423,60 @@ body {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-button-hover);
   border-radius: 4px;
+}
+
+/* ===== Header ===== */
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  background: linear-gradient(90deg, var(--color-bg-start), var(--color-bg-end));
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--color-title);
+  height: var(--header-height);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-logo-icon {
+  color: var(--color-button-hover);
+  transition: transform 0.2s ease;
+}
+
+.header-logo-icon:hover {
+  transform: scale(1.1);
+}
+
+.header-logo {
+  font-family: var(--font-main);
+  font-size: 1.5rem;
+  color: var(--color-title);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.header-logo:hover {
+  color: var(--color-button);
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
