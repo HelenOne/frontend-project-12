@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import Modal from './Modal.jsx';
 
 const RemoveChannelModal = ({ channel, onClose }) => {
-  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleDelete = async () => {
