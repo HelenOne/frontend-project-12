@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannelId } from '../store/slices/chatSlice.js';
+import { useSelector } from 'react-redux';
 import AddChannelModal from '../modals/AddChannelModal.jsx';
+import ChannelItem from './ChannelItem.jsx';
 
 const ChannelList = () => {
-  const dispatch = useDispatch();
   const channels = useSelector((state) => state.chat.channels);
-  const currentChannelId = useSelector((state) => state.chat.currentChannelId);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleClick = (id) => {
-    dispatch(setCurrentChannelId(id));
+  const handleRename = (channel) => {
+    console.log('Rename modal for', channel);
+  };
+
+  const handleRemove = (channel) => {
+    console.log('Remove modal for', channel);
   };
 
   return (
@@ -29,17 +31,12 @@ const ChannelList = () => {
 
       <ul className="channel-list">
         {channels.map((channel) => (
-          <li
+          <ChannelItem
             key={channel.id}
-            className={
-              channel.id === currentChannelId
-                ? 'channel active-channel'
-                : 'channel'
-            }
-            onClick={() => handleClick(channel.id)}
-          >
-            # {channel.name}
-          </li>
+            channel={channel}
+            onRename={handleRename}
+            onRemove={handleRemove}
+          />
         ))}
       </ul>
 
