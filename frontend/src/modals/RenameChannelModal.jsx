@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import Modal from './Modal.jsx';
 
@@ -9,12 +9,13 @@ const RenameChannelModal = ({ channel, onClose }) => {
   const inputRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const existingNames = useSelector((state) =>
-    state.chat.channels
-      .filter((c) => c.id !== channel.id)
-      .map((c) => c.name)
-  );
+  const channels = useSelector((state) => state.chat.channels);
 
+  const existingNames = useMemo(
+    () => channels.filter(c => c.id !== channel.id).map(c => c.name),
+    [channels, channel.id],
+  );
+  
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
