@@ -15,8 +15,6 @@ const ConfirmModal = ({ title, message, channelId, onClose }) => {
       await axios.delete(`/api/v1/channels/${channelId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // стейт обновится по сокету removeChannel или можно раскомментить:
-      // dispatch(removeChannel(channelId));
       onClose();
     } catch (err) {
       console.error('Ошибка при удалении канала', err);
