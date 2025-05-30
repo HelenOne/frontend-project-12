@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import AddChannelModal from '../modals/AddChannelModal.jsx';
 import RenameChannelModal from '../modals/RenameChannelModal.jsx';
+import RemoveChannelModal from '../modals/RemoveChannelModal.jsx';
 import ChannelItem from './ChannelItem.jsx';
 
 const ChannelList = () => {
   const channels = useSelector((state) => state.chat.channels);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isRenameModalOpen, setRenameModalOpen] = useState(false);
+  const [isRemoveModalOpen, setRemoveModalOpen] = useState(false);
   const [channelToRename, setChannelToRename] = useState(null);
+  const [channelToRemove, setChannelToRemove] = useState(null);
 
   const handleAdd = () => {
     setAddModalOpen(true);
@@ -20,8 +23,8 @@ const ChannelList = () => {
   };
 
   const handleRemove = (channel) => {
-    // здесь можно будет открыть RemoveChannelModal
-    console.log('Remove modal for', channel);
+    setChannelToRemove(channel);
+    setRemoveModalOpen(true);
   };
 
   return (
@@ -59,6 +62,16 @@ const ChannelList = () => {
           onClose={() => {
             setRenameModalOpen(false);
             setChannelToRename(null);
+          }}
+        />
+      )}
+
+      {isRemoveModalOpen && channelToRemove && (
+        <RemoveChannelModal
+          channel={channelToRemove}
+          onClose={() => {
+            setRemoveModalOpen(false);
+            setChannelToRemove(null);
           }}
         />
       )}

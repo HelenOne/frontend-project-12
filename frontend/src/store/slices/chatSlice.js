@@ -32,9 +32,25 @@ const chatSlice = createSlice({
       if (channel) {
         channel.name = name;
       }
-    },    
+    }, 
+    removeChannel: (state, action) => {
+      const idToRemove = action.payload;
+      state.channels = state.channels.filter((c) => c.id !== idToRemove);
+      state.messages = state.messages.filter((m) => m.channelId !== idToRemove);
+      if (state.currentChannelId === idToRemove) {
+        state.currentChannelId = state.channels[0]?.id || null;
+      }
+    },  
   },
 });
 
-export const { setChatData, addMessage, setCurrentChannelId, addChannel, renameChannel } = chatSlice.actions;
+export const {
+  setChatData,
+  addMessage,
+  setCurrentChannelId,
+  addChannel,
+  renameChannel,
+  removeChannel,
+} = chatSlice.actions;
+
 export default chatSlice.reducer;

@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addMessage, setChatData, addChannel, renameChannel } from '../store/slices/chatSlice.js';
+import {
+  addMessage,
+  setChatData,
+  addChannel,
+  renameChannel,
+  removeChannel,
+} from '../store/slices/chatSlice.js';
 import ChannelList from '../components/ChannelList.jsx';
 import Chat from '../components/Chat.jsx';
 import socket from '../socket.js';
@@ -26,7 +32,11 @@ const MainPage = () => {
 
     socket.on('renameChannel', (channel) => {
       dispatch(renameChannel(channel));
-    });    
+    });
+
+    socket.on('removeChannel', ({ id }) => {
+      dispatch(removeChannel(id));
+    });
 
     return () => {
       socket.disconnect();

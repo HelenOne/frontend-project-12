@@ -17,7 +17,6 @@ const AddChannelModal = ({ onClose }) => {
     [channels],
   );
 
-
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
