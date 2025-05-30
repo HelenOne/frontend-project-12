@@ -1,19 +1,22 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { removeChannel } from '../store/slices/chatSlice.js';
 import Modal from './Modal.jsx';
 
-const RemoveChannelModal = ({ channel, onClose }) => {
+const ConfirmModal = ({ title, message, channelId, onClose }) => {
+  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleDelete = async () => {
+  const handleConfirm = async () => {
     setIsSubmitting(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(
-        `/api/v1/channels/${channel.id}`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+      await axios.delete(`/api/v1/channels/${channelId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // стейт обновится по сокету removeChannel или можно раскомментить:
+      // dispatch(removeChannel(channelId));
       onClose();
     } catch (err) {
       console.error('Ошибка при удалении канала', err);
@@ -23,8 +26,8 @@ const RemoveChannelModal = ({ channel, onClose }) => {
   };
 
   return (
-    <Modal title="Удалить канал" onClose={onClose}>
-      <p>Вы уверены, что хотите удалить канал «{channel.name}»?</p>
+    <Modal title={title} onClose={onClose}>
+      <p className="modal-text">{message}</p>
       <div className="modal-buttons">
         <button
           type="button"
@@ -37,7 +40,7 @@ const RemoveChannelModal = ({ channel, onClose }) => {
         <button
           type="button"
           className="modal-button submit"
-          onClick={handleDelete}
+          onClick={handleConfirm}
           disabled={isSubmitting}
         >
           Удалить
@@ -47,4 +50,4 @@ const RemoveChannelModal = ({ channel, onClose }) => {
   );
 };
 
-export default RemoveChannelModal;
+export default ConfirmModal;

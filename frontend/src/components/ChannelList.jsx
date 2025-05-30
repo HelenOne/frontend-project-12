@@ -1,30 +1,22 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import AddChannelModal from '../modals/AddChannelModal.jsx';
-import RenameChannelModal from '../modals/RenameChannelModal.jsx';
-import RemoveChannelModal from '../modals/RemoveChannelModal.jsx';
 import ChannelItem from './ChannelItem.jsx';
+import ChannelNameModal from '../modals/ChannelNameModal.jsx';
+import ConfirmModal from '../modals/ConfirmModal.jsx';
 
 const ChannelList = () => {
   const channels = useSelector((state) => state.chat.channels);
-  const [isAddModalOpen, setAddModalOpen] = useState(false);
-  const [isRenameModalOpen, setRenameModalOpen] = useState(false);
-  const [isRemoveModalOpen, setRemoveModalOpen] = useState(false);
-  const [channelToRename, setChannelToRename] = useState(null);
-  const [channelToRemove, setChannelToRemove] = useState(null);
+  const [modalType, setModalType] = useState(null);
+  const [selectedChannel, setSelectedChannel] = useState(null);
 
-  const handleAdd = () => {
-    setAddModalOpen(true);
+  const openModal = (type, channel = null) => {
+    setSelectedChannel(channel);
+    setModalType(type);
   };
 
-  const handleRename = (channel) => {
-    setChannelToRename(channel);
-    setRenameModalOpen(true);
-  };
-
-  const handleRemove = (channel) => {
-    setChannelToRemove(channel);
-    setRemoveModalOpen(true);
+  const closeModal = () => {
+    setModalType(null);
+    setSelectedChannel(null);
   };
 
   return (
@@ -33,7 +25,7 @@ const ChannelList = () => {
         <h3 className="panel-title">Каналы ✨</h3>
         <button
           className="add-channel-button"
-          onClick={handleAdd}
+          onClick={() => openModal('add')}
           aria-label="Добавить канал"
           type="button"
         >
@@ -46,33 +38,28 @@ const ChannelList = () => {
           <ChannelItem
             key={channel.id}
             channel={channel}
-            onRename={handleRename}
-            onRemove={handleRemove}
+            onRename={() => openModal('edit', channel)}
+            onRemove={() => openModal('remove', channel)}
           />
         ))}
       </ul>
 
-      {isAddModalOpen && (
-        <AddChannelModal onClose={() => setAddModalOpen(false)} />
+      {modalType === 'add' && (
+        <ChannelNameModal mode="add" onClose={closeModal} />
       )}
-
-      {isRenameModalOpen && channelToRename && (
-        <RenameChannelModal
-          channel={channelToRename}
-          onClose={() => {
-            setRenameModalOpen(false);
-            setChannelToRename(null);
-          }}
+      {modalType === 'edit' && selectedChannel && (
+        <ChannelNameModal
+          mode="edit"
+          channel={selectedChannel}
+          onClose={closeModal}
         />
       )}
-
-      {isRemoveModalOpen && channelToRemove && (
-        <RemoveChannelModal
-          channel={channelToRemove}
-          onClose={() => {
-            setRemoveModalOpen(false);
-            setChannelToRemove(null);
-          }}
+      {modalType === 'remove' && selectedChannel && (
+        <ConfirmModal
+          title="Удалить канал"
+          message={`Вы уверены, что хотите удалить канал «${selectedChannel.name}»?`}
+          channelId={selectedChannel.id}
+          onClose={closeModal}
         />
       )}
     </aside>

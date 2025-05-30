@@ -2,28 +2,30 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentChannelId } from '../store/slices/chatSlice.js';
 import Modal from './Modal.jsx';
 
-const RenameChannelModal = ({ channel, onClose }) => {
+const ChannelNameModal = ({ mode, channel, onClose }) => {
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const channels = useSelector((state) => state.chat.channels);
-
+  const channels = useSelector((s) => s.chat.channels);
   const existingNames = useMemo(
-    () => channels.filter(c => c.id !== channel.id).map(c => c.name),
-    [channels, channel.id],
+    () =>
+      channels
+        .filter((c) => (mode === 'edit' ? c.id !== channel.id : true))
+        .map((c) => c.name),
+    [channels, channel?.id, mode]
   );
-  
+
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
   const formik = useFormik({
-    initialValues: {
-      name: channel.name,
-    },
+    initialValues: { name: mode === 'edit' ? channel.name : '' },
     validationSchema: Yup.object({
       name: Yup.string()
         .trim()
@@ -32,34 +34,47 @@ const RenameChannelModal = ({ channel, onClose }) => {
         .notOneOf(existingNames, 'Канал с таким именем уже существует')
         .required('Обязательное поле'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async ({ name }) => {
       setIsSubmitting(true);
       const token = localStorage.getItem('token');
+      const trimmed = name.trim();
 
       try {
-        await axios.patch(
-          `/api/v1/channels/${channel.id}`,
-          { name: values.name.trim() },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        if (mode === 'edit') {
+          await axios.patch(
+            `/api/v1/channels/${channel.id}`,
+            { name: trimmed },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+        } else {
+          const res = await axios.post(
+            '/api/v1/channels',
+            { name: trimmed },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          dispatch(setCurrentChannelId(res.data.id));
+        }
         onClose();
       } catch (err) {
-        console.error('Ошибка при переименовании канала', err);
+        console.error('Ошибка при сохранении канала', err);
       } finally {
         setIsSubmitting(false);
       }
     },
   });
 
+  const title = mode === 'edit' ? 'Переименовать канал' : 'Добавить канал';
+  const submitText = mode === 'edit' ? 'Переименовать' : 'Добавить';
+
   return (
-    <Modal title="Переименовать канал" onClose={onClose}>
+    <Modal title={title} onClose={onClose}>
       <form onSubmit={formik.handleSubmit} className="modal-form">
         <input
+          ref={inputRef}
           id="name"
           name="name"
           type="text"
           className="modal-input"
-          ref={inputRef}
           value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -68,7 +83,6 @@ const RenameChannelModal = ({ channel, onClose }) => {
         {formik.touched.name && formik.errors.name && (
           <div className="input-error">{formik.errors.name}</div>
         )}
-
         <div className="modal-buttons">
           <button
             type="button"
@@ -83,7 +97,7 @@ const RenameChannelModal = ({ channel, onClose }) => {
             className="modal-button submit"
             disabled={isSubmitting}
           >
-            Переименовать
+            {submitText}
           </button>
         </div>
       </form>
@@ -91,4 +105,4 @@ const RenameChannelModal = ({ channel, onClose }) => {
   );
 };
 
-export default RenameChannelModal;
+export default ChannelNameModal;
