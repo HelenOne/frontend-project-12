@@ -1,5 +1,10 @@
-### Hexlet tests and linter status:
-[![Actions Status](https://github.com/HelenOne/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/HelenOne/frontend-project-12/actions)
+# Chat Client 💬
 
+🔗 Live Demo: [frontend-project-12-uumt.onrender.com](https://frontend-project-12-uumt.onrender.com/)
 
-Деплой тут https://frontend-project-12-uumt.onrender.com/
+### 🚀 Getting Started
+
+```bash
+make build
+make start
+```
