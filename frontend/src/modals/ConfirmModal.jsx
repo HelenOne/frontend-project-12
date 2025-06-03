@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { removeChannel } from '../store/slices/chatSlice.js';
 import Modal from './Modal.jsx';
 
 const ConfirmModal = ({ title, message, channelId, onClose }) => {
-  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleConfirm = async () => {

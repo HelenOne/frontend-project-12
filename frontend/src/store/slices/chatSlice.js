@@ -24,7 +24,6 @@ const chatSlice = createSlice({
     },
     addChannel: (state, action) => {
       state.channels.push(action.payload);
-      state.currentChannelId = action.payload.id;
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
