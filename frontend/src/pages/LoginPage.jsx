@@ -13,6 +13,7 @@ const LoginPage = () => {
     try {
       const response = await axios.post('/api/v1/login', values);
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', values.username);
       navigate('/');
     } catch (err) {
       if (err.response?.status === 401) {

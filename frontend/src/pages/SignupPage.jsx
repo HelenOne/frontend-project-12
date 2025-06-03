@@ -14,6 +14,7 @@ const SignupPage = () => {
       const { username, password } = values;
       const response = await axios.post('/api/v1/signup', { username, password });
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', username);
       navigate('/');
     } catch (err) {
       if (err.response?.status === 409) {
