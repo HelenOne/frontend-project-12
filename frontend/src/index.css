@@ -81,9 +81,13 @@ body {
 .login-error {
   color: var(--color-error);
   font-size: 14px;
-  margin-top: 10px;
   margin-bottom: 8px;
   font-weight: 700;
+  margin-top: -10px;
+}
+
+.login-error.footer {
+  margin-top: 20px;
   text-align: center;
 }
 

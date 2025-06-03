@@ -1,49 +1,48 @@
 import { useState } from 'react';
-import { Formik, Form, Field } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import AuthForm from '../components/AuthForm.jsx';
+import * as Yup from 'yup';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [authError, setAuthError] = useState(null);
 
+  const handleLogin = async (values) => {
+    setAuthError(null);
+    try {
+      const response = await axios.post('/api/v1/login', values);
+      localStorage.setItem('token', response.data.token);
+      navigate('/');
+    } catch (err) {
+      if (err.response?.status === 401) {
+        setAuthError('Неверные имя пользователя или пароль');
+      } else {
+        setAuthError('Ошибка сервера. Попробуйте позже.');
+      }
+    }
+  };
+
   return (
-    <div className="login-wrapper">
-      <div className="login-form-box">
-        <h2 className="login-title">✨ Вход в чат ✨</h2>
-        <Formik
-          initialValues={{ username: '', password: '' }}
-          onSubmit={async (values) => {
-            setAuthError(null);
-            try {
-              const response = await axios.post('/api/v1/login', values);
-              const token = response.data.token;
-              localStorage.setItem('token', token);
-              navigate('/');
-            } catch (err) {
-              if (err.response?.status === 401) {
-                setAuthError('Неверные имя пользователя или пароль');
-              } else {
-                setAuthError('Ошибка сервера. Попробуйте позже.');
-              }
-            }
-          }}
-        >
-          <Form className="login-form">
-            <label className="login-label" htmlFor="username">Имя пользователя</label>
-            <Field className="login-input" id="username" name="username" placeholder="Ваше имя" />
-
-            <label className="login-label" htmlFor="password">Пароль</label>
-            <Field className="login-input" id="password" name="password" type="password" placeholder="Пароль" />
-
-            {authError && <div className="login-error">⚠️ {authError} ⚠️</div>}
-
-            <button type="submit" className="login-button">Войти</button>
-          </Form>
-        </Formik>
-      </div>
-    </div>
-  );  
-}
+    <AuthForm
+      initialValues={{ username: '', password: '' }}
+      validationSchema={Yup.object({
+        username: Yup.string().required('Обязательное поле'),
+        password: Yup.string().required('Обязательное поле'),
+      })}
+      onSubmit={handleLogin}
+      title="✨ Вход в чат ✨"
+      buttonText="Войти"
+      fields={[
+        { name: 'username', label: 'Имя пользователя', placeholder: 'Ваше имя' },
+        { name: 'password', label: 'Пароль', type: 'password', placeholder: 'Пароль' },
+      ]}
+      footer={<>
+        {authError && <div className="login-error footer">⚠️ {authError} ⚠️</div>}
+        <p className="auth-footer">Нет аккаунта? <Link to="/signup">Зарегистрироваться</Link></p>
+      </>}
+    />
+  );
+};
 
 export default LoginPage;
