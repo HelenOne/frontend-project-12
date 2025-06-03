@@ -21,3 +21,4 @@ make start
 
 🧠 Replace educational backend with custom server (authentication, WebSocket messaging, channel logic)
 
+🎨 UI polishing and theme support (light/dark mode)
